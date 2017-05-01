@@ -2,12 +2,13 @@
 
 double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,16,10,3, REVERSE);
-myPID.SetOutputLimits(1024);
+
 long adc_result;
 
 void setup(void) {
   Serial.begin(9600);
   pinMode(9, OUTPUT);  // enable output on 16 bit capable pwm pin
+  myPID.SetOutputLimits(0, 1024); // required coz default is for an 8 bit pwm
   
   TCCR1A = (1<<COM1A1) |  (1<<WGM10) | (1<<WGM11);
   // this should set 10 bit fast pwm mode, set clock full speed, set atmega pin 15 as pwm output
