@@ -2,14 +2,15 @@
 
 double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,16,10,3, REVERSE);
+myPID.SetOutputLimits(1024);
 long adc_result;
 
 void setup(void) {
   Serial.begin(9600);
-  pinMode(9, OUTPUT);  // enable PWM output on 16 bit capable pwm pin
+  pinMode(9, OUTPUT);  // enable output on 16 bit capable pwm pin
   
-  TCCR1A = (1<<COM1A1) | (1<<COM1B1) | (1<< COM1B0) | (1<<WGM10) | (1<<WGM11);
-  // this should set 10 bit fast pwm mode, set clock full speed
+  TCCR1A = (1<<COM1A1) |  (1<<WGM10) | (1<<WGM11);
+  // this should set 10 bit fast pwm mode, set clock full speed, set atmega pin 15 as pwm output
   TCCR1B = (1 << WGM12) | (1 << CS10) | (0<<CS12); // set for /1024 divider
   OCR1A = 0; // initialize 
   OCR1B = 0; // initialize
