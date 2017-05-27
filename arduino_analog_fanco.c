@@ -8,7 +8,8 @@ long adc_result;
 void setup(void) {
   Serial.begin(9600);
   pinMode(9, OUTPUT);  // enable output on 16 bit capable pwm pin
-  myPID.SetOutputLimits(0, 1024); // required coz default is for an 8 bit pwm
+  myPID.SetOutputLimits(0, 1023); // required coz default is for an 8 bit pwm and I'm setting this up as a 10 bit pwm
+  // without the above, it'll have a max output of 256 on a pin configured for 10-bit, so max pwm achieved will be 25% dutycycle
   
   TCCR1A = (1<<COM1A1) |  (1<<WGM10) | (1<<WGM11);
   // this should set 10 bit fast pwm mode, set clock full speed, set atmega pin 15 as pwm output
