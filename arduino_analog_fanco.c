@@ -4,9 +4,11 @@ double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,16,10,3, REVERSE);
 
 long adc_result;
+int debug = 1;
 
 void setup(void) {
-  Serial.begin(9600);
+  if(debug)
+    Serial.begin(9600);
   pinMode(9, OUTPUT);  // enable output on 16 bit capable pwm pin
   myPID.SetOutputLimits(0, 1023); // required coz default is for an 8 bit pwm and I'm setting this up as a 10 bit pwm
   // without the above, it'll have a max output of 256 on a pin configured for 10-bit, so max pwm achieved will be 25% dutycycle
@@ -41,13 +43,19 @@ void loop(void) {
   float temp;
    // 1023 = 5V = 500 degrees
   temp = adc_result; // this should be calibrated at some point
-  Serial.print("  Raw value = ");
-  Serial.print(temp);
-  Serial.print(" F, ");
+  if(debug)
+  {
+    Serial.print("  Raw value = ");
+    Serial.print(temp);
+    Serial.print(" F, ");
+  }
   temp = float(temp)/2.046; // this should be calibrated at some point
-  Serial.print("  Temperature = ");
-  Serial.print(temp);
-  Serial.print(" F, ");
+  if(debug)
+  {
+    Serial.print("  Temperature = ");
+    Serial.print(temp);
+    Serial.print(" F, ");
+  }
   
   Input = temp;
   cli();
@@ -57,8 +65,11 @@ void loop(void) {
     Output = 1023;
   if (Output < 0)
     Output = 0;
-  OCR1A = Output;
+  OCR1A = Output;  // compiler automatically knows to break up the 16 bit word into two bytes.
   OCR1B = Output;
-  Serial.print(" PID = ");
-  Serial.println(Output);
+  if(debug)
+  {
+    Serial.print(" PID = ");
+    Serial.println(Output);
+  }
 }
