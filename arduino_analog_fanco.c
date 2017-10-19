@@ -27,7 +27,7 @@ void setup(void) {
   ADCSRA |= (1<<ADSC);  // Start the conversion by setting bit 6 (=ADSC) in ADCSRA
   sei();                // set interrupt flag
     
-  Setpoint = 200;
+  Setpoint = 200;       // this is degrees F, presuming use of LM34 fahrenheit temp sensor
   myPID.SetMode(AUTOMATIC);
 }
 
