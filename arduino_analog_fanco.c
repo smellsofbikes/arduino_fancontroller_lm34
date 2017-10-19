@@ -49,7 +49,7 @@ void loop(void) {
     Serial.print(temp);
     Serial.print(" F, ");
   }
-  temp = float(temp)/2.046; // this should be calibrated at some point
+  temp = float(temp) * 100; // LM34 reads temp in tens of millivolts.
   if(debug)
   {
     Serial.print("  Temperature = ");
