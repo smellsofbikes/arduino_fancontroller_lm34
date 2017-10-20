@@ -42,14 +42,14 @@ ISR(ADC_vect)
 void loop(void) {
   float temp;
    // 1023 = 5V = 500 degrees
-  temp = adc_result; // this should be calibrated at some point
+  temp = adc_result;
   if(debug)
   {
     Serial.print("  Raw value = ");
     Serial.print(temp);
-    Serial.print(" F, ");
+    Serial.print(" V, ");
   }
-  temp = float(temp) * 100; // LM34 reads temp in tens of millivolts.
+  temp = float(temp)/2.046; // constant derived from 5V/1023 steps * LM34's output
   if(debug)
   {
     Serial.print("  Temperature = ");
